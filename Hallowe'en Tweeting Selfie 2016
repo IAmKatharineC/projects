@@ -1,0 +1,41 @@
+#Created for Derby Mini Maker Faire October 2016
+
+from picamera import PiCamera
+from time import sleep
+from twython import Twython
+import random
+
+from auth import (
+    consumer_key,
+    consumer_secret,
+    access_token,
+    access_token_secret
+)
+
+twitter = Twython(
+    consumer_key,
+    consumer_secret,
+    access_token,
+    access_token_secret
+)
+
+messages = [
+    "Having fun at @MakerFaireDERBY #DMMF16!",
+    "Hello from @MakerFaireDERBY #DMMF16",
+    "Learning about digital making #DMMF16",
+    "Look who came to @derbysilkmill to the Maker Faire! #DMFF16",
+    "Spooky goings on @MakerFaireDERBY #DMMF16",
+    "Take a Hallowe'en selfie at @derbysilkmill @MakerFaireDERBY #DMMF16!"
+]
+
+camera = PiCamera()
+
+camera.start_preview()
+sleep(2)
+camera.capture('/home/pi/Desktop/image.jpg')
+camera.stop_preview()
+
+message = random.choice(messages)
+with open('/home/pi/Desktop/image.jpg', 'rb') as photo:
+    twitter.update_status_with_media(status=message, media=photo)
+print("Tweeted: %s" % message)
