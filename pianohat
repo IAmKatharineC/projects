@@ -1,0 +1,40 @@
+import pianohat
+import time
+from pygame import mixer
+
+def handle_note(channel,pressed):
+    if pressed:
+        my_sounds[channel].play(loops=0)
+        print("You pressed key {}".format(channel))
+    else:
+        print("You released key {}".format(channel))
+
+mixer.init(22050,-16,2,512)
+mixer.set_num_channels(13)
+
+my_sound_files = [
+    "/home/pi/Piano files/piano040.wav",
+    "/home/pi/Piano files/piano041.wav",
+    "/home/pi/Piano files/piano042.wav",
+    "/home/pi/Piano files/piano043.wav",
+    "/home/pi/Piano files/piano044.wav",
+    "/home/pi/Piano files/piano045.wav",
+    "/home/pi/Piano files/piano046.wav",
+    "/home/pi/Piano files/piano047.wav",
+    "/home/pi/Piano files/piano048.wav",
+    "/home/pi/Piano files/piano049.wav",
+    "/home/pi/Piano files/piano050.wav",
+    "/home/pi/Piano files/piano051.wav",
+    "/home/pi/Piano files/piano052.wav",
+]
+
+my_sounds = [mixer.Sound(sound_file) for sound_file in my_sound_files]
+
+#my_sound = mixer.Sound("/home/pi/Piano files/piano040.wav")
+
+pianohat.on_note(handle_note)
+
+while True:
+    time.sleep(0.001)
+    
+
